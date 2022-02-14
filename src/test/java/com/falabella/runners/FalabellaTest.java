@@ -10,5 +10,5 @@ glue = "com.falabella.stepdefinitions",
 snippets = CucumberOptions.SnippetType.CAMELCASE,
 dryRun = false)
 
-public class RealizarAdicionaItem {
+public class FalabellaTest {
 }
