@@ -1,5 +1,6 @@
 package com.falabella.stepdefinitions;
 
+import com.falabella.drivers.Driver;
 import com.falabella.models.ShippingInformation;
 import com.falabella.task.EndPurchase;
 import com.falabella.task.SearchItem;
@@ -7,9 +8,8 @@ import io.cucumber.java.Before;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
-import io.github.bonigarcia.wdm.WebDriverManager;
 import net.serenitybdd.screenplay.Actor;
-import net.serenitybdd.screenplay.actions.Open;
+import net.serenitybdd.screenplay.abilities.BrowseTheWeb;
 import net.serenitybdd.screenplay.actors.OnStage;
 import net.serenitybdd.screenplay.actors.OnlineCast;
 import net.serenitybdd.screenplay.ensure.Ensure;
@@ -23,15 +23,14 @@ import static com.falabella.userinterface.PurchasePage.RESULT;
 public class PurchaseStepdefinitions {
 
     @Before
-    public void setStage(){
-        WebDriverManager.chromedriver().setup();
+    public void setStage() {
         OnStage.setTheStage(new OnlineCast());
     }
 
 
     @Given("the {actor} enters the falabella virtual store {string}")
-    public void theUserEntersTheFalabellaVirtualStore(Actor actor, String string) {
-        actor.wasAbleTo(Open.url(string));
+    public void theUserEntersTheFalabellaVirtualStore(Actor actor, String url) {
+        actor.whoCan(BrowseTheWeb.with(Driver.chrome(url)));
 
     }
 
@@ -50,9 +49,10 @@ public class PurchaseStepdefinitions {
 
     @When("the user enter the shipping information")
     public void theUserEnterTheShippingInformation(List<ShippingInformation> shippingInformation) {
-OnStage.theActorInTheSpotlight().attemptsTo(EndPurchase.with(shippingInformation));
+        OnStage.theActorInTheSpotlight().attemptsTo(EndPurchase.with(shippingInformation));
 
     }
+
     @Then("the user can pay for the added product and see {string}")
     public void theUserCanPayForTheAddedProduct(String string) {
         OnStage.theActorInTheSpotlight().attemptsTo(Ensure.that(RESULT).hasText(string));

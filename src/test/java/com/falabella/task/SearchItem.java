@@ -6,7 +6,8 @@ import net.serenitybdd.screenplay.Tasks;
 import net.serenitybdd.screenplay.actions.Click;
 import net.serenitybdd.screenplay.actions.Enter;
 
-import static com.falabella.userinterface.Home.*;
+import static com.falabella.userinterface.Home.BTNSEARCH;
+import static com.falabella.userinterface.Home.TEXTFIELDSEARCH;
 
 public class SearchItem implements Task {
     private String productInfo;
@@ -17,15 +18,10 @@ public class SearchItem implements Task {
 
     @Override
     public <T extends Actor> void performAs(T actor) {
-        actor.attemptsTo(Enter.theValue(productInfo).into(CAMPOBUSCAR),Click.on(BTNBUSCAR));
-
-
-
-
-
+        actor.attemptsTo(Enter.theValue(productInfo).into(TEXTFIELDSEARCH), Click.on(BTNSEARCH));
     }
 
-    public static SearchItem with (String productInfo) {
-        return Tasks.instrumented(SearchItem.class,productInfo);
+    public static SearchItem with(String productInfo) {
+        return Tasks.instrumented(SearchItem.class, productInfo);
     }
 }

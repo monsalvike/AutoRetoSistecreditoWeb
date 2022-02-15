@@ -7,6 +7,8 @@ import net.serenitybdd.screenplay.Tasks;
 import net.serenitybdd.screenplay.actions.Click;
 import net.serenitybdd.screenplay.actions.Enter;
 import net.serenitybdd.screenplay.actions.SelectFromOptions;
+import net.serenitybdd.screenplay.matchers.WebElementStateMatchers;
+import net.serenitybdd.screenplay.waits.WaitUntil;
 
 import java.util.List;
 
@@ -16,54 +18,29 @@ public class EndPurchase implements Task {
 
     private ShippingInformation shippingInformation;
 
-    public EndPurchase(List<ShippingInformation> shippingInformation){
+    public EndPurchase(List<ShippingInformation> shippingInformation) {
 
         this.shippingInformation = shippingInformation.get(0);
     }
 
     @Override
     public <T extends Actor> void performAs(T actor) {
-       actor.attemptsTo(Enter.theValue(shippingInformation.getEmail()).into(CAMPOEMAIL), Click.on(BTNCONTINUAREMAIL));
-        try {
-            Thread.sleep(4000);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-        actor.attemptsTo(SelectFromOptions.byVisibleText(shippingInformation.getState()).from(LISTDEPARTAMENTO));
-        try {
-            Thread.sleep(2000);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-        actor.attemptsTo(SelectFromOptions.byVisibleText(shippingInformation.getCity()).from(LISTCIUDAD));
-
-        try {
-            Thread.sleep(2000);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-
-        actor.attemptsTo(SelectFromOptions.byVisibleText(shippingInformation.getNeighborhood()).from(LISTBARRIO));
-
-        actor.attemptsTo(Click.on(BTNCONTINUACOMPRA));
-        try {
-            Thread.sleep(2000);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-        actor.attemptsTo(Enter.theValue(shippingInformation.getAddress()).into(CAMPODIRECCION),Enter.theValue(shippingInformation.getAddressComplement()).into(CAMPOCOMPLEMENTO)
-        ,Click.on(BTNINGRESADIR),Click.on(BTNIRAPAGAR));
-        try {
-            Thread.sleep(10000);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-
-
+        actor.attemptsTo(Enter.theValue(shippingInformation.getEmail()).into(TEXTFIEDLEMAIL), Click.on(BTNCONTINUEEMAIL),
+                WaitUntil.the(STATELIST, WebElementStateMatchers.isClickable()).forNoMoreThan(4).seconds(),
+                SelectFromOptions.byVisibleText(shippingInformation.getState()).from(STATELIST),
+                WaitUntil.the(CITYLIST, WebElementStateMatchers.isClickable()).forNoMoreThan(4).seconds(),
+                SelectFromOptions.byVisibleText(shippingInformation.getCity()).from(CITYLIST),
+                WaitUntil.the(NEIGHBORHOODLIST, WebElementStateMatchers.isClickable()).forNoMoreThan(4).seconds(),
+                SelectFromOptions.byVisibleText(shippingInformation.getNeighborhood()).from(NEIGHBORHOODLIST),
+                Click.on(BTNCONTINUEPURCHASE),
+                WaitUntil.the(TEXTFIELDADDRESS, WebElementStateMatchers.isClickable()).forNoMoreThan(4).seconds(),
+                Enter.theValue(shippingInformation.getAddress()).into(TEXTFIELDADDRESS),
+                Enter.theValue(shippingInformation.getAddressComplement()).into(TEXTFIELDCOMPLEMENTADDRESS),
+                Click.on(BTNINPUTADDRESS), Click.on(BTNPAY));
     }
 
 
-    public static EndPurchase with(List<ShippingInformation> shippingInformation){
-        return Tasks.instrumented(EndPurchase.class,shippingInformation);
+    public static EndPurchase with(List<ShippingInformation> shippingInformation) {
+        return Tasks.instrumented(EndPurchase.class, shippingInformation);
     }
 }

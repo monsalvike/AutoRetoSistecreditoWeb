@@ -5,6 +5,6 @@ Feature: the user open thhe falabella virtual store, add a product and pay
     When the user search an "iphone 11 128GB"
     And the user add an iphone 11 128GB to cart
     And the user enter the shipping information
-    |email              |state     |city    |neighborhood  |address        |addressComplement|
-    |prueba1@prueba1.com|ANTIOQUIA |MEDELLIN|MEDELLIN      |circular3#88-95|piso 4           |
+      | email               | state     | city     | neighborhood | address         | addressComplement |
+      | prueba1@prueba1.com | ANTIOQUIA | MEDELLIN | MEDELLIN     | circular3#88-95 | piso 4            |
     Then the user can pay for the added product and see "Elige tu medio de pago"
