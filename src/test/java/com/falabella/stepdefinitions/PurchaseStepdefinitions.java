@@ -1,7 +1,7 @@
 package com.falabella.stepdefinitions;
 
 import com.falabella.models.ShippingInformation;
-import com.falabella.task.AddItem;
+import com.falabella.task.EndPurchase;
 import com.falabella.task.SearchItem;
 import io.cucumber.java.Before;
 import io.cucumber.java.en.Given;
@@ -12,10 +12,12 @@ import net.serenitybdd.screenplay.Actor;
 import net.serenitybdd.screenplay.actions.Open;
 import net.serenitybdd.screenplay.actors.OnStage;
 import net.serenitybdd.screenplay.actors.OnlineCast;
+import net.serenitybdd.screenplay.ensure.Ensure;
 
 import java.util.List;
 
 import static com.falabella.task.AddItem.addTheItem;
+import static com.falabella.userinterface.PurchasePage.RESULT;
 
 
 public class PurchaseStepdefinitions {
@@ -47,12 +49,13 @@ public class PurchaseStepdefinitions {
     }
 
     @When("the user enter the shipping information")
-    public void theUserEnterTheShippingInformation(List<ShippingInformation> shippingInformations) {
-
+    public void theUserEnterTheShippingInformation(List<ShippingInformation> shippingInformation) {
+OnStage.theActorInTheSpotlight().attemptsTo(EndPurchase.with(shippingInformation));
 
     }
     @Then("the user can pay for the added product and see {string}")
     public void theUserCanPayForTheAddedProduct(String string) {
+        OnStage.theActorInTheSpotlight().attemptsTo(Ensure.that(RESULT).hasText(string));
 
     }
 

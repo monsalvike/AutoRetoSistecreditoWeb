@@ -8,31 +8,34 @@ import net.serenitybdd.screenplay.actions.Click;
 import net.serenitybdd.screenplay.actions.Enter;
 import net.serenitybdd.screenplay.actions.SelectFromOptions;
 
+import java.util.List;
+
 import static com.falabella.userinterface.PurchasePage.*;
 
-public class FinalizarCompra implements Task {
+public class EndPurchase implements Task {
 
     private ShippingInformation shippingInformation;
 
-    public FinalizarCompra(ShippingInformation shippingInformation){
-        this.shippingInformation = shippingInformation;
+    public EndPurchase(List<ShippingInformation> shippingInformation){
+
+        this.shippingInformation = shippingInformation.get(0);
     }
 
     @Override
     public <T extends Actor> void performAs(T actor) {
-      /*  actor.attemptsTo(Enter.theValue(shippingInformation.getEmail()).into(CAMPOEMAIL), Click.on(BTNCONTINUAREMAIL));
+       actor.attemptsTo(Enter.theValue(shippingInformation.getEmail()).into(CAMPOEMAIL), Click.on(BTNCONTINUAREMAIL));
         try {
             Thread.sleep(4000);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
-        actor.attemptsTo(SelectFromOptions.byVisibleText(shippingInformation.getDepartamento()).from(LISTDEPARTAMENTO));
+        actor.attemptsTo(SelectFromOptions.byVisibleText(shippingInformation.getState()).from(LISTDEPARTAMENTO));
         try {
             Thread.sleep(2000);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
-        actor.attemptsTo(SelectFromOptions.byVisibleText(shippingInformation.getCiudad()).from(LISTCIUDAD));
+        actor.attemptsTo(SelectFromOptions.byVisibleText(shippingInformation.getCity()).from(LISTCIUDAD));
 
         try {
             Thread.sleep(2000);
@@ -40,7 +43,7 @@ public class FinalizarCompra implements Task {
             e.printStackTrace();
         }
 
-        actor.attemptsTo(SelectFromOptions.byVisibleText(shippingInformation.getBarrio()).from(LISTBARRIO));
+        actor.attemptsTo(SelectFromOptions.byVisibleText(shippingInformation.getNeighborhood()).from(LISTBARRIO));
 
         actor.attemptsTo(Click.on(BTNCONTINUACOMPRA));
         try {
@@ -48,7 +51,7 @@ public class FinalizarCompra implements Task {
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
-        actor.attemptsTo(Enter.theValue(shippingInformation.getDireccion()).into(CAMPODIRECCION),Enter.theValue(shippingInformation.getComplementodireccion()).into(CAMPOCOMPLEMENTO)
+        actor.attemptsTo(Enter.theValue(shippingInformation.getAddress()).into(CAMPODIRECCION),Enter.theValue(shippingInformation.getAddressComplement()).into(CAMPOCOMPLEMENTO)
         ,Click.on(BTNINGRESADIR),Click.on(BTNIRAPAGAR));
         try {
             Thread.sleep(10000);
@@ -56,11 +59,11 @@ public class FinalizarCompra implements Task {
             e.printStackTrace();
         }
 
-*/
+
     }
 
 
-    public static FinalizarCompra finalizarCompra(ShippingInformation datosCompras){
-        return Tasks.instrumented(FinalizarCompra.class,datosCompras);
+    public static EndPurchase with(List<ShippingInformation> shippingInformation){
+        return Tasks.instrumented(EndPurchase.class,shippingInformation);
     }
 }
